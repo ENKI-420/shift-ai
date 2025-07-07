@@ -1,0 +1,28 @@
+name: GPT Admin Automation
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: 'Administrative task to trigger'
+        required: true
+        default: 'backup'
+
+jobs:
+  execute-admin-task:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Trigger Admin Action (GPT API)
+        run: |
+          curl -X POST https://199.188.200.35/api/admin/trigger-action \
+          -H "X-API-Key: 1QQQ37WIG7JOZNWOU5XI43LC2SRT41VD" \
+          -H "Content-Type: application/json" \
+          -d '{"task": "${{ github.event.inputs.task }}", "details": "Automated task trigger"}'
